@@ -1,3 +1,11 @@
+//file sistem
+const fs = require("fs");
+
+fs.readFile('test.txt','utf-8', (err,data) => {
+    if (err) throw err;
+    console.log(data);
+});
+
 const readline = require('readline');
 
 const rl = readline.createInterface({
