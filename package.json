@@ -1,0 +1,17 @@
+{
+  "name": "nodejs---1",
+  "version": "1.0.0",
+  "description": "Learn NPM",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "fol": "ls",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Syalza",
+  "license": "ISC",
+  "dependencies": {
+    "validator": "^13.12.0",
+    "yargs": "^17.7.2"
+  }
+}
