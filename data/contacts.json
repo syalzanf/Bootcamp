@@ -1,1 +1,17 @@
-[{"name":"Najmi","hp":"08973655456","email":"naj@gmail.com"},{"name":"naila","hp":"08973655455","email":"naji@gmail.com"},{"name":"syalza","noPhone":"0898767654543","email":"aa@hh.com"}]
+[
+  {
+    "name": "Najmi",
+    "hp": "08973655456",
+    "email": "naj@gmail.com"
+  },
+  {
+    "name": "naila",
+    "hp": "08973655455",
+    "email": "naji@gmail.com"
+  },
+  {
+    "name": "syalza",
+    "hp": "0898776546651",
+    "email": "syalzanf@gmail.com"
+  }
+]
