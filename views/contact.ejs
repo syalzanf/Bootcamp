@@ -1,20 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-</head>
-<body>
-    <h1>This is contact page</h1>
-    <h2>Contact List</h2>
-    <ul>
-      <% contact.forEach(function(contact) { %>
-        <li>
-          Name: <%= contact.name %> - Email: <%= contact.email %>
-        </li>
-      <% }); %>
-    </ul>
-</body>
-</html>
+<div class="card">
+  <div class="card-header">
+      <h6>Table Contact</h6>
+  </div>    
+<div class = "card-body">
+<div class="container mt-4">
+  <% if (contact.length < 1) { %>
+    <div class="alert alert-info" role="alert">
+      No contacts available.
+    </div>
+  <% } else { %>
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="thead-ligth">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% contact.forEach(function(contact) { %>
+          <tr>
+            <td><%= contact.name %></td>
+            <td><%= contact.email %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+</div>
+</div>
+
+  <!-- <script>
+    $(document).ready(function () {
+      $('#contactTable').DataTable();
+    });
+    
+  </script> -->
