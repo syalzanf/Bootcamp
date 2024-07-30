@@ -4,6 +4,7 @@ const fs = require('fs');
 const dataPath = './data/contacts.json';
 
 
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout

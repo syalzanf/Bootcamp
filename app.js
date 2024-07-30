@@ -5,7 +5,7 @@ const expressLayouts = require('express-ejs-layouts');
 const morgan = require('morgan')
 const path = require('path'); 
 const fs = require ('fs')
-
+const { loadContact } = require('./contact')
 
 
 app.set('view engine', 'ejs');
@@ -38,33 +38,14 @@ app.get('/about', (req, res)=>{
     title: 'about page'})
 })
 
-app.get('/contact', (req, res) => {
-
-  const filePath = path.join(__dirname, 'data', 'contacts.json');
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading file:', err);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-    try {
-      const contacts = JSON.parse(data);
-
-      console.log('JSON success:', contacts);
-
+app.get('/contact', async (req, res) => {
+  const contact = await loadContact();
       res.render('contact', {
         title: 'Contact Page',
-        contact: contacts,
-        layout: "layout" });
-
-    } catch (jsonErr) {
-      console.error('Error parsing JSON:', jsonErr);
-      res.status(500).send('Internal Server Error');
-    }
+        contact: contact,
+        layout: "layout" 
   });
 });
-
 
 app.get('/product/:id', (req, res) => {
   res.send(`product id : ${req.params.id} <br> category id : ${req.query.category}`);
