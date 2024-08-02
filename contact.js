@@ -89,10 +89,16 @@ async function saveContact(name, hp, email) {
 
 async function updateContact(name, newPhone, newEmail) {
     try {
+        console.log('Memuat kontak dari file JSON...');
         const contacts = await loadContact();
+        console.log('Kontak berhasil dimuat:', contacts);
+
+
         const contactIndex = contacts.findIndex(contact => contact.name.toLowerCase() === name.toLowerCase());
+        console.log(`Indeks kontak yang dicari: ${contactIndex}`);
 
         if (contactIndex !== -1) {
+            
             if (newPhone) {
                 if (!validator.isMobilePhone(newPhone, 'id-ID')) {
                     console.log('Nomor telepon tidak valid.');
@@ -119,8 +125,10 @@ async function updateContact(name, newPhone, newEmail) {
             // Menyimpan perubahan ke file JSON
             await fs.promises.writeFile(dataPath, JSON.stringify(contacts, null, 2), 'utf8');
             console.log(`Data kontak ${name} berhasil diperbarui.`);
+            return true;
         } else {
             console.log(`Kontak dengan nama ${name} tidak ditemukan.`);
+            return false;
         }
     } catch (err) {
         console.error('Error:', err);
