@@ -6,6 +6,8 @@
         <h6>Add New Contact</h6>
       </div>
       <div class="card-body">
+
+        
         <form id="addContactForm" method="post" action="/contact/add">
           <input type="hidden" name="action" value="saveContact">
 
@@ -33,26 +35,22 @@
     </div>
   </div>
 </div>
-    <!-- Modal -->
-      <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-          <div class="modal-content">
-            <!-- <div class="modal-header"> -->
-              <!-- <h4 class="modal-title" id="errorModalLabel">Validation Error</h4> -->
-              <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-            <!-- </div> -->
-            <div class="modal-body">
-              <% if (errorMessage) { %>
-              <p class="text-error"><%= errorMessage %></p>
-              <% } %>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
+
+<!-- Modal for Error Message -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <% if (errorMessage) { %>
+          <p class="text-danger"><%= errorMessage %></p>
+        <% } %>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
+</div>
 
 
 <script>

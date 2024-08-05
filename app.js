@@ -8,8 +8,9 @@ const fs = require ('fs')
 const validator = require('validator');
 const session = require('express-session');
 const flash = require('connect-flash');
-
 const { loadContact, saveContact, findContactByName, updateContact, deleteContact,  isContactAlreadyExists} = require('./contact')
+const conn = require('./connection');
+
 
 
 app.set('view engine', 'ejs');
@@ -85,6 +86,7 @@ app.get('/contact/add', async (req, res) => {
     email
   });
 });
+
 app.post('/contact/add', async (req, res) => {
   const { name, hp, email } = req.body;
   console.log('Received data:', { name, hp, email });
@@ -106,8 +108,8 @@ app.post('/contact/add', async (req, res) => {
     const newContact = { name, hp, email };
     const contactExists = await isContactAlreadyExists(newContact);
 
-    if (contactExists) {
-      errorMessage = 'Contact already exists!';
+  if (contactExists) {
+    errorMessage = 'Contact already exists!';
     }
   }
 
@@ -170,7 +172,13 @@ app.get('/contact/edit/:name', async (req, res) => {
 // Rute untuk update contact
 app.post('/contact/update/:name', async (req, res) => {
   const contactName = req.params.name;
-  const { hp, email } = req.body;
+  const { name, hp, email } = req.body;
+
+  console.log('Received data:', req.body);
+
+  const updatedData = { name, hp, email };
+  
+
   
   // Validasi input
   let errorMessage = '';
@@ -184,7 +192,7 @@ app.post('/contact/update/:name', async (req, res) => {
   }
 
   if (errorMessage) {
-    const contact = await findContactByName(contactName);
+    const contact = await findContactByName(contactName, updatedData);
     return res.render('editContact', {
       title: 'Edit Contact page',
       contact: contact,
@@ -193,7 +201,7 @@ app.post('/contact/update/:name', async (req, res) => {
   }
 
   // Jika tidak ada kesalahan, lakukan pembaruan kontak
-  const success = await updateContact(contactName, hp, email);
+  const success = await updateContact(contactName, updatedData);
 
   if (success) {
     res.redirect('/contact');

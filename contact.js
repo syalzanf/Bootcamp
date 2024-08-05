@@ -1,8 +1,10 @@
 const validator = require('validator');
 const readline = require("readline");
 const fs = require('fs');
-const dataPath = './data/contacts.json';
+// const dataPath = './data/contacts.json';
 
+const conn = require('./connection');
+const { query } = require('express');
 
 
 const rl = readline.createInterface({
@@ -10,37 +12,87 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-if (!fs.existsSync('./data')) {
-    fs.mkdirSync('./data');
-}
+// if (!fs.existsSync('./data')) {
+//     fs.mkdirSync('./data');
+// }
 
-if (!fs.existsSync(dataPath)) {
-    fs.writeFileSync(dataPath, '[]', 'utf-8');
-}
+// if (!fs.existsSync(dataPath)) {
+//     fs.writeFileSync(dataPath, '[]', 'utf-8');
+// }
+
+
+// async function runQuery(query, values = []) {
+//     try {
+//       const result = await conn.query(query, values);
+//       return result.rows; // Return only the rows
+//     } catch (error) {
+//       throw error; // Throw error to be handled by caller
+//     }
+//   }
 
 async function loadContact() {
+    const query = 'SELECT * FROM contacts'; // Adjust query as needed
     try {
-        const data = await fs.promises.readFile(dataPath, 'utf8');
-        return JSON.parse(data);
+      const { rows } = await conn.query(query);
+      return rows; // This will be an array of contacts
     } catch (err) {
-        console.error('Error loading contacts:', err);
-        return [];
+      console.error('Error loading contacts:', err);
+      return [];
+    }
+  }  
+
+// async function loadContact(){
+//     try{
+//         const query = 'SELECT * FROM contacts';
+
+//         const result = await runQuery(query);
+//         return result;
+//     } catch (error) {
+//         console.error(error.message);
+//         throw error;
+//     }
+// }
+  
+async function findContactByName(name) {
+    const query = 'SELECT * FROM contacts WHERE name = $1';
+    const values = [name];
+
+    try {
+      const result = await conn.query(query, values);
+      return result.rows[0];
+    } catch (err) {
+        console.error('Error:', err);
+      throw error; 
     }
 }
-    
-async function findContactByName(name) {
-    const contacts = await loadContact();
-    return contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase());
-}
+
+// async function findContactByName(name) {
+//     const query = 'SELECT * FROM contacts WHERE name = ?';
+//     const values = [name];
+
+//     const result = await runQuery(query, values);
+//     return result[0];
+// }
+
 
 async function isContactAlreadyExists(newContact) {
-    const contacts = await loadContact();
-    return contacts.some(contact => contact.name === newContact.name || contact.hp === newContact.hp || contact.email === newContact.email);
+    const query = 'SELECT * FROM contacts WHERE name = $1 OR hp = $2 OR email = $3';
+    const values = [newContact.name, newContact.hp, newContact.email];
+    try{
+        const result = await conn.query(query, values);
+        return result.length > 0;
+    }catch (err){
+        console.error('Error checking if contact already exists:', err);
+        throw err;
+    }
 }
 
 async function saveContact(name, hp, email) {
+     const query = 'INSERT INTO contacts (name, hp, email) VALUES ($1, $2, $3)';
+    const values = [name, hp, email];
 
     try {
+        
         if (!validator.isMobilePhone(hp, 'id-ID')) {
             console.log('Nomor telepon tidak valid.');
             return;
@@ -77,9 +129,11 @@ async function saveContact(name, hp, email) {
         // Tambahkan kontak baru
         contacts.push({ name, hp, email });
 
-        // Simpan ke file JSON
-        await fs.promises.writeFile(dataPath, JSON.stringify(contacts, null, 2), 'utf8');
+         // Jalankan query SQL untuk menyimpan data ke dalam database
+         await conn.query(query, values);
+
         console.log('Kontak berhasil ditambahkan.');
+
     } catch (err) {
         console.error('Error:', err);
     } finally {
@@ -87,75 +141,61 @@ async function saveContact(name, hp, email) {
     }
 }
 
-async function updateContact(name, newPhone, newEmail) {
-    try {
-        console.log('Memuat kontak dari file JSON...');
-        const contacts = await loadContact();
-        console.log('Kontak berhasil dimuat:', contacts);
+async function updateContact(name, updatedContact) {
+        try {
 
-
-        const contactIndex = contacts.findIndex(contact => contact.name.toLowerCase() === name.toLowerCase());
-        console.log(`Indeks kontak yang dicari: ${contactIndex}`);
-
-        if (contactIndex !== -1) {
-            
-            if (newPhone) {
-                if (!validator.isMobilePhone(newPhone, 'id-ID')) {
-                    console.log('Nomor telepon tidak valid.');
-                    return;
-                }
-        
-                contacts[contactIndex].hp = newPhone;
+            const existingContact = await findContactByName(name);
+            if (!existingContact) {
+                console.log('Kontak tidak ditemukan.');
+                return false;
             }
-            if (newEmail) {
-                if (!validator.isEmail(newEmail)) {
-                    console.log('Email tidak valid.');
-                    return;
-                }
-                // Cek email memiliki domain ".com"
-                const emailParts = newEmail.split('@');
-                const domain = emailParts[1].toLowerCase();
-                if (!domain.endsWith('.com')) {
-                    console.log('Ekstensi domain email harus .com');
-                    return;
-                }
-
-                contacts[contactIndex].email = newEmail;
+            if (!validator.isMobilePhone(updatedContact.hp, 'id-ID')) {
+                console.log('Nomor telepon tidak valid.');
+                return;
             }
-            // Menyimpan perubahan ke file JSON
-            await fs.promises.writeFile(dataPath, JSON.stringify(contacts, null, 2), 'utf8');
+            if (!validator.isEmail(updatedContact.email)) {
+                console.log('Email tidak valid.');
+                return;
+            }
+            // Cek email memiliki domain ".com"
+            const emailParts = updatedContact.email.split('@');
+            const domain = emailParts[1].toLowerCase();
+            if (!domain.endsWith('.com')) {
+                console.log('Ekstensi domain email harus .com');
+                return;
+            }
+            // Menyimpan perubahan ke database
+            const query = 'UPDATE contacts SET name = $1, hp = $2, email = $3 WHERE name = $1';
+            const values = [name, updatedContact.hp, updatedContact.email];
+            await conn.query(query, values);
+
             console.log(`Data kontak ${name} berhasil diperbarui.`);
             return true;
-        } else {
-            console.log(`Kontak dengan nama ${name} tidak ditemukan.`);
-            return false;
-        }
-    } catch (err) {
-        console.error('Error:', err);
-     } finally {
+
+        } catch (err) {
+            console.error('Error updating contact:', err);
+        } finally {
         rl.close();
     }
 }
 
 async function deleteContact(name) {
     try {
-        let contacts = await loadContact();
-        const index = contacts.findIndex(contact => contact.name.toLowerCase() === name.toLowerCase());
-
-        if (index === -1) {
+        // Periksa apakah kontak dengan nama yang ingin dihapus ada
+        const existingContact = await findContactByName(name);
+        if (!existingContact) {
             console.log('Kontak tidak ditemukan.');
             return;
         }
-        contacts = contacts.filter(contact => contact.name.toLowerCase() !== name.toLowerCase());
-        // Simpan perubahan ke file JSON
-        await fs.promises.writeFile(dataPath, JSON.stringify(contacts, null, 2), 'utf8');
+        const query = 'DELETE FROM contacts WHERE name = $1';
+        const values = [name];
+        await conn.query(query, values);
         console.log(`Kontak dengan nama ${name} berhasil dihapus.`);
     } catch (err) {
         console.error('Error:', err);
-      } finally {
-        rl.close();
     }
 }
+
 
 async function listContacts() {
     try {

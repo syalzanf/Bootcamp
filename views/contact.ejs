@@ -8,7 +8,9 @@
         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContactModal">
           <i class="fa-solid fa-circle-plus"></i> Add New
         </button>  -->
-    <a href="/contact/add" class="button-link btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Add New</a>
+    <a href="/contact/add" class="button-link btn btn-primary">
+      <i class="fa-solid fa-circle-plus"></i> Add New
+    </a>
     <!-- <div class="container mt-4"> -->
   </div> 
   <div class = "card-body">
@@ -26,111 +28,71 @@
         </tr>
       </thead>
       <tbody>
-        <% contact.forEach(function(contact) { %>
+        <% contact.forEach(function(contact) {
+          var contactName = contact.name.replace(/\s+/g, '');
+          %>
           <tr>
             <td><%= contact.name %></td>
             <td><%= contact.hp %></td>
             <td>
-                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailContactModal<%= contact.name %>">
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailContactModal_<%= contactName %>">
                   <i class="fas fa-info-circle"></i> Details
                 </button>
 
-              <!-- Modal detail contact -->
-              <div class="modal fade" id="detailContactModal<%= contact.name %>" tabindex="-1" role="dialog" aria-labelledby="detailContactModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="detailContactModalLabel">Detail Contact</h5>
-                        <div class="ml-auto">
-                          <a href="/contact/edit/<%= contact.name %>" class="btn btn-primary btn-sm mr-2">
-                            <i class="fas fa-edit"></i> Edit
-                          </a>
-                          <form method="post" action="/contact/delete/<%= contact.name %>" class="d-inline mr-2">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                              <i class="fas fa-trash"></i> Delete
-                            </button>
-                          </form>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
+             <!-- Modal detail contact -->
+            <div class="modal fade" id="detailContactModal_<%= contactName %>" tabindex="-1" role="dialog" aria-labelledby="detailContactModalLabel_<%= contactName %>" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="detailContactModalLabel_<%= contactName %>">Detail Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <% if (contact) { %>
+                      <form id="detailContactForm_<%= contactName %>" method="post" action="/contact/detail/<%= contact.name %>">
+                        <input type="hidden" name="action" value="detailContact">
+                        <div class="form-group">
+                          <label for="name">Name:</label>
+                          <input type="text" class="form-control" id="name" name="name" value="<%= contact.name %>" required readonly>
                         </div>
-                      </div>
-                      
-                        <div class="modal-body">
-                          <% if (contact) { %>
-                            <form id="addContactForm" method="post" action="/contact/detail/<%= contact.name %>">
-                                <input type="hidden" name="action" value="detailContact">
-
-                                <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<%= contact.name %>" required readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="hp">Phone Number:</label>
-                                    <input type="text" class="form-control" id="hp" name="hp"  value="<%= contact.hp %>" required readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="email">Email:</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="<%= contact.email %>" required readonly>
-                                </div>
-                            </form>
-                            <% } else { %>
-                              <p>Contact not found.</p>
-                              <% } %>
+                        <div class="form-group">
+                          <label for="hp">Phone Number:</label>
+                          <input type="text" class="form-control" id="hp" name="hp" value="<%= contact.hp %>" required readonly>
                         </div>
-                    </div>
+                        <div class="form-group">
+                          <label for="email">Email:</label>
+                          <input type="email" class="form-control" id="email" name="email" value="<%= contact.email %>" required readonly>
+                        </div>
+                      </form>
+                    <% } else { %>
+                      <p>Contact not found.</p>
+                    <% } %>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="/contact/edit/<%= contact.name %>" class="btn btn-primary btn-sm mr-2">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form method="post" action="/contact/delete/<%= contact.name %>" class="d-inline mr-2">
+                      <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
-              </div>
-              </div>
+            </div>
+
             </td>
           </tr>
         <% }); %>
       </tbody>
     </table>
   <% } %>
-<!-- </div> -->
 </div>
 </div>
-
-<!-- Modal add contact -->
-<div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="addContactModalLabel">Add New Contact</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <form id="addContactForm" method="post" action="/contact/add">
-
-                  <div class="form-group">
-                      <label for="name">Name:</label>
-                      <input type="text" class="form-control" id="name" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>" required>
-                  </div>
-
-                  <div class="form-group">
-                      <label for="hp">Phone Number:</label>
-                      <input type="text" class="form-control" id="hp" name="hp" value="<%= typeof hp !== 'undefined' ? hp : '' %>" required>
-                    </div>
-
-                  <div class="form-group">
-                      <label for="email">Email:</label>
-                      <input type="email" class="form-control" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" required>
-                    </div>
-
-                  <button type="submit" class="btn btn-primary">Add Contact</button>
-              </form>
-          </div>
-      </div>
-  </div>
 </div>
-</div>
-
 
 <!-- Modal for Error Message -->
 <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -180,11 +142,42 @@
 
 
 
+<!-- 
+ Modal add contact
+<div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="addContactModalLabel">Add New Contact</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="addContactForm" method="post" action="/contact/add">
 
+                  <div class="form-group">
+                      <label for="name">Name:</label>
+                      <input type="text" class="form-control" id="name" name="name" value="" required>
+                  </div>
 
+                  <div class="form-group">
+                      <label for="hp">Phone Number:</label>
+                      <input type="text" class="form-control" id="hp" name="hp" value="" required>
+                    </div>
 
+                  <div class="form-group">
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" name="email" value="" required>
+                    </div>
 
-
+                  <button type="submit" class="btn btn-primary">Add Contact</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+</div> -->
   <!-- <script>
     $(document).ready(function () {
       $('#contactTable').DataTable();
