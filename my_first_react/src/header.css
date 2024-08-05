@@ -1,0 +1,44 @@
+/* src/Header.css */
+.App-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa; /* Optional: Adding a background color */
+  }
+  
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav h3 {
+    margin: 0;
+    font-size: 24px; /* Optional: Adjust the font size */
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  nav ul li {
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: #61dafb;
+  }
+  
