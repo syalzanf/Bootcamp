@@ -1,10 +1,9 @@
-/* src/Header.css */
 .App-header {
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f8f9fa; /* Optional: Adding a background color */
+    background-color: #f8f9fa; 
   }
   
   nav {
@@ -16,7 +15,7 @@
   
   nav h3 {
     margin: 0;
-    font-size: 24px; /* Optional: Adjust the font size */
+    font-size: 24px; 
   }
   
   nav ul {

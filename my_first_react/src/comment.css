@@ -1,0 +1,72 @@
+/* comment.css */
+
+/* Styling untuk container komentar */
+.ui.comments {
+    margin: 20px;
+  }
+  
+  /* Styling untuk header komentar */
+  .ui.dividing.header {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  /* Styling untuk avatar */
+  .comment .avatar img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Styling untuk konten komentar */
+  .comment .content {
+    margin-left: 60px; /* memberi jarak dari avatar */
+  }
+  
+  /* Styling untuk nama penulis komentar */
+  .comment .author {
+    font-weight: bold;
+  }
+  
+  /* Styling untuk metadata tanggal */
+  .comment .metadata .date {
+    color: #999;
+  }
+  
+  /* Styling untuk teks komentar */
+  .comment .text {
+    margin: 10px 0;
+  }
+  
+  /* Styling untuk tombol Reply */
+  .comment .actions .ui.button {
+    background-color: #2185d0; /* Warna biru semantic UI */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .comment .actions .ui.button:hover {
+    background-color: #1678c2; /* Warna biru gelap untuk hover */
+  }
+  
+  /* Styling untuk form balasan komentar */
+  .ui.reply.form {
+    margin-top: 20px;
+  }
+  
+  .ui.reply.form .field textarea {
+    width: 100%;
+    min-height: 100px;
+  }
+  
+  .ui.reply.form .ui.blue.labeled.submit.icon.button {
+    background-color: #21ba45; /* Warna hijau semantic UI */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .ui.reply.form .ui.blue.labeled.submit.icon.button:hover {
+    background-color: #18a747; /* Warna hijau gelap untuk hover */
+  }
