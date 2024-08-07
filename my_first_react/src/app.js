@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './header';
-import CommentSection from "./comment";
+import Comment from "./comment";
+import Clock from './clock';
 import { faker } from '@faker-js/faker';
 import 'semantic-ui-css/semantic.min.css';
 import moment from 'moment';
@@ -23,28 +24,57 @@ const generateComments = (num) => {
 };
 
 
-function App() {
+//class for counting button
+class Counting extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count:0,
+    };
+  }
+  render() {
+  return (
+    <div>
+      <h1>you clicked {this.state.count} times</h1>
+      <button className="btn btn-primary" onClick={() => this.setState({count:this.state.count + 1})}>
+        click on me!
+      </button>
+    </div>
+  );
+  }
+}
+
+// function App() {
+
+class App extends React.Component {
+  render() {
   // const message = "This is app.js";
   const name = "Syalza";
   const comments = generateComments(4);
+  const date = new Date();
+  const time = date.toLocaleDateString();
 
     return (
       <div className="App">
         <Header />
         <div className="App-content">
+
             <div>
                 {/* <h1>{message}</h1> */}
-                <h1>Hi, I am {name}.I am a bootcamp participant from batch 10.</h1>
-            </div>
-            <CommentSection comments={comments} />
+                <h5>Hi, I am {name}.I am a bootcamp participant from batch 10.</h5>
+                <Clock />
+            </div><br></br>
+            <Comment comments={comments} />
+            <Counting></Counting>
+            <h1>{time}</h1>
         </div>
       </div>
     );
   }
+}
 
 export default App;
 
-  // const date = new Date();
-  // const time = date.toLocaleDateString();
-  /* <h1>{time}</h1> */
+
+
 
