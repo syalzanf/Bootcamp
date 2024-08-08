@@ -2,9 +2,13 @@ import React from 'react';
 import Header from './header';
 import Comment from "./comment";
 import Clock from './clock';
+import Form from './inputForm';
+import Search from './search';
 import { faker } from '@faker-js/faker';
 import 'semantic-ui-css/semantic.min.css';
 import moment from 'moment';
+// import axios from 'axios';
+
 
 
 // Helper function to format the date
@@ -35,7 +39,7 @@ class Counting extends React.Component {
   render() {
   return (
     <div>
-      <h1>you clicked {this.state.count} times</h1>
+      <h4>you clicked {this.state.count} times</h4>
       <button className="btn btn-primary" onClick={() => this.setState({count:this.state.count + 1})}>
         click on me!
       </button>
@@ -44,29 +48,28 @@ class Counting extends React.Component {
   }
 }
 
-// function App() {
 
+
+// function App() 
 class App extends React.Component {
   render() {
   // const message = "This is app.js";
   const name = "Syalza";
   const comments = generateComments(4);
-  const date = new Date();
-  const time = date.toLocaleDateString();
 
     return (
       <div className="App">
         <Header />
         <div className="App-content">
-
             <div>
                 {/* <h1>{message}</h1> */}
-                <h5>Hi, I am {name}.I am a bootcamp participant from batch 10.</h5>
+                <Search /><br></br>
                 <Clock />
+                <h5>Hi, I am {name}.I am a bootcamp participant from batch 10.</h5>   
+                <Form />
             </div><br></br>
             <Comment comments={comments} />
             <Counting></Counting>
-            <h1>{time}</h1>
         </div>
       </div>
     );
@@ -74,6 +77,14 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+
+
+
+// const date = new Date();
+// const time = date.toLocaleDateString();
+// <h1>{time}</h1>
 
 
 

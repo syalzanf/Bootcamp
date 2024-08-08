@@ -1,5 +1,4 @@
 import React from "react";
-// import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -28,10 +27,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
   );
 }
 }
-
-
-
-
 
 
 export default Header;
