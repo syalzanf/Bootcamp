@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './header';
 import Comment from "./comment";
-import Clock from './clock';
 import Form from './inputForm';
 import Search from './search';
 import { faker } from '@faker-js/faker';
@@ -53,25 +52,24 @@ class Counting extends React.Component {
 // function App() 
 class App extends React.Component {
   render() {
-  // const message = "This is app.js";
   const name = "Syalza";
   const comments = generateComments(4);
 
     return (
-      <div className="App">
-        <Header />
-        <div className="App-content">
-            <div>
-                {/* <h1>{message}</h1> */}
-                <Search /><br></br>
-                <Clock />
-                <h5>Hi, I am {name}.I am a bootcamp participant from batch 10.</h5>   
-                <Form />
-            </div><br></br>
-            <Comment comments={comments} />
-            <Counting></Counting>
+      <div>
+      <Header />
+      <div className="App-content row">
+        <div className="col-md-8 offset-md-2"><br></br>
+        <Search />
+          <h5 className="text-center">Hi, I am {name}. I am a bootcamp participant from batch 10.</h5>
+          <Form />
+          <Counting />
+        </div>
+        <div className="col-md-8 offset-md-2">
+          <Comment comments={comments} />
         </div>
       </div>
+    </div>
     );
   }
 }

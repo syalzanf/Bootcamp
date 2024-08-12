@@ -166,7 +166,7 @@ app.get('/contact/edit/:name', async (req, res) => {
     res.render('editContact', {
       contact: contact,
       title: 'Edit Contact page',
- });
+ })
 });
 
 // Rute untuk update contact

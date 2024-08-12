@@ -1,8 +1,6 @@
 const validator = require('validator');
 const readline = require("readline");
 const fs = require('fs');
-// const dataPath = './data/contacts.json';
-
 const conn = require('./connection');
 const { query } = require('express');
 
@@ -12,15 +10,6 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-// if (!fs.existsSync('./data')) {
-//     fs.mkdirSync('./data');
-// }
-
-// if (!fs.existsSync(dataPath)) {
-//     fs.writeFileSync(dataPath, '[]', 'utf-8');
-// }
-
-
 // async function runQuery(query, values = []) {
 //     try {
 //       const result = await conn.query(query, values);
@@ -29,17 +18,6 @@ const rl = readline.createInterface({
 //       throw error; // Throw error to be handled by caller
 //     }
 //   }
-
-async function loadContact() {
-    const query = 'SELECT * FROM contacts'; // Adjust query as needed
-    try {
-      const { rows } = await conn.query(query);
-      return rows; // This will be an array of contacts
-    } catch (err) {
-      console.error('Error loading contacts:', err);
-      return [];
-    }
-  }  
 
 // async function loadContact(){
 //     try{
@@ -53,6 +31,17 @@ async function loadContact() {
 //     }
 // }
   
+async function loadContact() {
+    const query = 'SELECT name, hp, email, updated_at FROM contacts ORDER BY updated_at DESC';
+    try {
+      const { rows } = await conn.query(query);
+      return rows; // This will be an array of contacts
+    } catch (err) {
+      console.error('Error loading contacts:', err);
+      return [];
+    }
+  }  
+
 async function findContactByName(name) {
     const query = 'SELECT * FROM contacts WHERE name = $1';
     const values = [name];
@@ -88,8 +77,10 @@ async function isContactAlreadyExists(newContact) {
 }
 
 async function saveContact(name, hp, email) {
-     const query = 'INSERT INTO contacts (name, hp, email) VALUES ($1, $2, $3)';
-    const values = [name, hp, email];
+
+    const updatedAt = new Date().toISOString();
+    const query = 'INSERT INTO contacts (name, hp, email, updated_at) VALUES ($1, $2, $3, $4)';
+    const values = [name, hp, email, updatedAt];
 
     try {
         
@@ -164,9 +155,10 @@ async function updateContact(name, updatedContact) {
                 console.log('Ekstensi domain email harus .com');
                 return;
             }
-            // Menyimpan perubahan ke database
-            const query = 'UPDATE contacts SET name = $1, hp = $2, email = $3 WHERE name = $1';
-            const values = [name, updatedContact.hp, updatedContact.email];
+            const updatedAt = new Date().toISOString(); // Menyimpan perubahan ke database
+            
+            const query = 'UPDATE contacts SET name = $1, hp = $2, email = $3, updated_at = $4 WHERE name = $1';
+            const values = [name, updatedContact.hp, updatedContact.email, updatedAt];
             await conn.query(query, values);
 
             console.log(`Data kontak ${name} berhasil diperbarui.`);

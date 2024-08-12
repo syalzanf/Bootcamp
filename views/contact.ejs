@@ -75,7 +75,7 @@
                       <i class="fas fa-edit"></i> Edit
                     </a>
                     <form method="post" action="/contact/delete/<%= contact.name %>" class="d-inline mr-2">
-                      <button type="submit" class="btn btn-danger btn-sm">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
                         <i class="fas fa-trash"></i> Delete
                       </button>
                     </form>

@@ -1,5 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Clock from './clock';
 
 
 // function Header() {
@@ -9,7 +10,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
     <header className="App-header">
            <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
             <div className="container-fluid d-flex justify-content-between align-items-center">
-              <h3 className="navbar-brand mb-0">Experiment with REACTJS</h3>
+              <h3 className="navbar-brand mb-0">
+                Experiment with REACTJS  <Clock />
+              </h3>
               <ul className="navbar-nav mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link" href="/">Home</a>

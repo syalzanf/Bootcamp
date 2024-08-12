@@ -66,7 +66,7 @@ class Form extends Component {
         </label><br></br>
         </div>
         <div className="form-group">
-        <input type="submit" value="Submit" className="btn btn-primary" />
+        <input type="submit" value="Submit" className="btn btn-success" />
         </div>
       </form>
     );

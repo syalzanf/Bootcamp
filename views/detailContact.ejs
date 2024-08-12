@@ -7,10 +7,13 @@
                 <a href="/contact/edit/<%= contact.name %>" class="btn btn-primary btn-sm mr-2">
                   <i class="fas fa-edit"></i> Edit
                 </a>
-                <form method="post" action="/contact/delete/<%= contact.name %>" class="d-inline">
-                  <button type="submit" class="btn btn-danger btn-sm">
+                <form action="/contact/delete/<%= contact.name %>"  method="POST" class="d-inline">
+                  <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')" type="submit">
+                    <i class="fas fa-trash"></i>Delete</button>
+
+                  <!-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data kasir ini?')">
                     <i class="fas fa-trash"></i> Delete
-                  </button>
+                  </button> -->
                 </form>
               </div>
             </div>

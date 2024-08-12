@@ -22,7 +22,7 @@ class Clock extends Component {
   render() {
     return (
       <div> 
-          <h4>{this.state.date}</h4>
+          <h5>{this.state.date}</h5>
       </div>
     );
   }
