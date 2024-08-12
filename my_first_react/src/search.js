@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-// import'./style.css'; 
-
-// class ImageList extends Component {
-//   const ImageList =props.images.map((image) => {
-//     return <ImageCard key={image.id} image={image}/>;
-//   });
-//   return <div className="image-list">{images}</div>;
-// };
 
 class Search extends Component {
   constructor(props) {
@@ -28,13 +20,12 @@ class Search extends Component {
       const images = response.data.results;
       this.setState({ images });
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching images:', error.response ? error.response.data : error.message);
     }
   };
 
   handleSearch = (event) => {
     event.preventDefault();
-    this.setState({ searchTerm: event.target.value });
     this.fetchImages();
   };
 
@@ -57,9 +48,9 @@ class Search extends Component {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gridGap: ' 10px',
-            }}
-          >
+            gridGap: '10px',
+          }}
+        >
           {images.map((image) => (
             <ImageCard key={image.id} image={image} />
           ))}
@@ -72,7 +63,7 @@ class Search extends Component {
 class ImageCard extends Component {
   constructor(props) {
     super(props);
-    // this.state = {spans: 0};
+    this.state = { spans: 0 };
     this.imageRef = React.createRef();
   }
 
@@ -80,20 +71,21 @@ class ImageCard extends Component {
     this.imageRef.current.addEventListener('load', this.setSpans);
   }
 
+  componentWillUnmount() {
+    this.imageRef.current.removeEventListener('load', this.setSpans);
+  }
+
   setSpans = () => {
     const height = this.imageRef.current.clientHeight;
-
-    const spans = Math.ceil(height / 150);
-
+    const spans = Math.ceil(height / 10);
     this.imageRef.current.style.gridRowEnd = `span ${spans}`;
-
-    // this.setState({spans});
+    this.setState({ spans });
   }
 
   render() {
     const { description, urls } = this.props.image;
     return (
-        <img
+      <img
         ref={this.imageRef}
         alt={description}
         src={urls.regular}
@@ -102,11 +94,9 @@ class ImageCard extends Component {
           height: '100%',
           objectFit: 'cover',
         }}
-        />
+      />
     );
   }
 }
-
-
 
 export default Search;

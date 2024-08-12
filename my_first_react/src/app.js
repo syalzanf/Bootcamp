@@ -3,6 +3,7 @@ import Header from './header';
 import Comment from "./comment";
 import Form from './inputForm';
 import Search from './search';
+import Videos from './video';
 import { faker } from '@faker-js/faker';
 import 'semantic-ui-css/semantic.min.css';
 import moment from 'moment';
@@ -47,9 +48,6 @@ class Counting extends React.Component {
   }
 }
 
-
-
-// function App() 
 class App extends React.Component {
   render() {
   const name = "Syalza";
@@ -61,6 +59,7 @@ class App extends React.Component {
       <div className="App-content row">
         <div className="col-md-8 offset-md-2"><br></br>
         <Search />
+        <Videos />
           <h5 className="text-center">Hi, I am {name}. I am a bootcamp participant from batch 10.</h5>
           <Form />
           <Counting />
