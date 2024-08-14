@@ -5,12 +5,12 @@ import Form from './inputForm';
 import Search from './search';
 import Videos from './video';
 import Hooks from './hooks';
+import Test from './testRedux';
 import { faker } from '@faker-js/faker';
 import 'semantic-ui-css/semantic.min.css';
 import moment from 'moment';
-// import axios from 'axios';
 
-
+import MyForm from './MyForm';
 
 // Helper function to format the date
 const formatDate = (date) => {
@@ -61,6 +61,8 @@ class App extends React.Component {
         <div className="col-md-8 offset-md-2"><br></br>
         <Search />
         <Videos />
+        <MyForm />
+        <Test />
         <Hooks />
           <h5 className="text-center">Hi, I am {name}. I am a bootcamp participant from batch 10.</h5>
           <Form />

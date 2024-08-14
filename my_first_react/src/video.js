@@ -8,7 +8,7 @@ const YouTubeVideo = ({ videoId }) => (
     frameBorder="0"
     allowFullScreen 
     width="100%"
-    height="300"
+    height="400"
   />
 );
 

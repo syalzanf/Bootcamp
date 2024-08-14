@@ -30,7 +30,7 @@ class Search extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images} = this.state;
     return (
       <div>
         <form onSubmit={this.handleSearch}>
@@ -38,7 +38,7 @@ class Search extends Component {
             className="form-control"
             type="search"
             onChange={(event) => this.setState({ searchTerm: event.target.value })}
-            placeholder="Search for images..."
+            placeholder="Search..."
           />
           <button type="submit" className="btn btn-link text-white hover hover-secondary">
             <i className="fas fa-search"></i>
@@ -63,41 +63,40 @@ class Search extends Component {
 class ImageCard extends Component {
   constructor(props) {
     super(props);
-    this.state = { isLoaded: false };
+    this.state = { spans: 0 };
     this.imageRef = React.createRef();
   }
 
-  handleImageLoad = () => {
-    this.setState({ isLoaded: true });
-  };
+  componentDidMount() {
+    this.imageRef.current.addEventListener('load', this.setSpans);
+  }
+
+  componentWillUnmount() {
+    this.imageRef.current.removeEventListener('load', this.setSpans);
+  }
+
+  setSpans = () => {
+    const height = this.imageRef.current.clientHeight;
+    const spans = Math.ceil(height / 10);
+    this.imageRef.current.style.gridRowEnd = `span ${spans}`;
+    this.setState({ spans });
+  }
 
   render() {
     const { description, urls } = this.props.image;
-    const { isLoaded } = this.state;
-
     return (
-      <div style={{ position: 'relative' }}>
-        {!isLoaded && (
-          <div>
-            <i className="fas fa-spinner fa-spin"></i>
-          </div>
-        )}
-        <img
-          ref={this.imageRef}
-          alt={description}
-          src={urls.regular}
-          onLoad={this.handleImageLoad}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: isLoaded ? 'block' : 'none',
-          }}
-        />
-      </div>
+      <img
+        ref={this.imageRef}
+        alt={description}
+        src={urls.regular}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
     );
   }
 }
-
 
 export default Search;
