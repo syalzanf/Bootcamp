@@ -9,7 +9,6 @@ import Test from './testRedux';
 import { faker } from '@faker-js/faker';
 import 'semantic-ui-css/semantic.min.css';
 import moment from 'moment';
-
 import MyForm from './MyForm';
 
 // Helper function to format the date

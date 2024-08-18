@@ -1,0 +1,73 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+    <div class="card">
+        <div class="card-header text-start">
+            <h6>Update Contact</h6>
+        </div>
+        <div class="card-body">
+            <form action="/contact/update/<%= contact.name %>" method="POST" >
+                <input type="hidden" name="action" value="updateContact">
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= contact.name %>"  required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="hp">Phone Number:</label>
+                    <input type="text" class="form-control" id="hp" name="hp" value="<%= contact.hp %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= contact.email %>" required>
+                </div>
+
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <% if (errorMessage) { %>
+                    <p class="text-danger"><%= errorMessage %></p>
+                <% } %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var errorMessage = '<%= errorMessage %>';
+        if (errorMessage) {
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        }
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var hpInput = document.getElementById('hp');
+        var nameInput = document.getElementById('name');
+        var emailInput = document.getElementById('email');
+        
+        hpInput.value = hpInput.value.trim();  // Menghapus spasi di awal dan akhir
+        nameInput.value = nameInput.value.trim();
+        emailInput.value = emailInput.value.trim();
+    });
+});
+</script>

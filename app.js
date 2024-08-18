@@ -10,6 +10,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const { loadContact, saveContact, findContactByName, updateContact, deleteContact,  isContactAlreadyExists} = require('./contact')
 const conn = require('./connection');
+const cors = require ('cors'); 
 
 
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static('public'));
 
 // Middleware untuk parsing JSON
+app.use(cors());
 app.use(express.json());
 // Middleware untuk parsing URL-encoded data
 app.use(express.urlencoded({ extended: true }));
@@ -50,6 +52,15 @@ app.use((req, res, next) => {
 // app.get('/', (req, res)=>{
 //   res.sendFile('./home.html',{root:__dirname});
 // })
+
+app.get('/api/data', (req, res) => {
+  res.json({ message: 'Hello from the backend!' });
+});
+
+app.post('/api/data', (req, res) => {
+  const { name } = req.body;
+  res.json({ message: `Hello, ${name}!` });
+});
 
 app.get('/', (req, res)=>{
   res.render('home', {

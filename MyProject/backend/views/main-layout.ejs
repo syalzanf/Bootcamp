@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link id="pagestyle" href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/datatables.min.css">
+  
+</head>
+<body>
+  <%- include('layouts/nav') %>
+  <%- body %>
+
+  <!-- DataTables JS -->
+  <script src="/js/jquery.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.dataTables.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/datatables.min.js"></script>
+  <script src="/js/all.min.js"></script>
+
+<script>
+      $(document).ready(function () {
+      $('#contactTable').DataTable();
+
+      var errorMessage = '<%= errorMessage %>';
+      if (errorMessage) {
+        $('#errorModal').modal('show');
+      }
+    });
+</script>
+
+</body>
+</html>

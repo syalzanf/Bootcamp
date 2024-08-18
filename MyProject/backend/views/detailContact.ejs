@@ -1,0 +1,31 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Contact</h5>
+              <div>
+                <a href="/contact/edit/<%= contact.name %>" class="btn btn-primary btn-sm mr-2">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="/contact/delete/<%= contact.name %>"  method="POST" class="d-inline">
+                  <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')" type="submit">
+                    <i class="fas fa-trash"></i>Delete</button>
+
+                  <!-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data kasir ini?')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button> -->
+                </form>
+              </div>
+            </div>
+          </div>
+        <div class="card-body">
+            <% if (contact) { %>
+            <p><strong>Name:</strong> <%= contact.name %></p>
+            <p><strong>Phone:</strong> <%= contact.hp %></p>
+            <p><strong>Email:</strong> <%= contact.email %></p>
+            <% } else { %>
+            <p>Contact not found.</p>
+            <% } %>
+        </div>
+        </div>
+    </div>
